@@ -10,13 +10,36 @@ export const buttonStyles = cva(
 	{
 		variants: {
 			variant: {
-				default: 'bg-gray-100 hover:bg-gray-200 text-gray-700',
-				ghost: 'bg-transparent border border-gray-300 hover:bg-gray-100',
+				default: ['bg-gray-100 hover:bg-gray-200 text-gray-700'],
+				ghost: ['bg-transparent border border-gray-300 hover:bg-gray-100'],
+				dark: [
+					'bg-secondary-dark',
+					'hover:bg-secondary-dark-hover',
+					'text-secondary',
+				],
 			},
 			size: {
-				sm: 'p-1.5 text-sm',
-				md: 'p-2 text-base',
-				lg: 'p-3 text-medium',
+				sm: ['p-1.5 text-sm'],
+				md: ['p-2 text-base'],
+				lg: ['p-3 text-medium'],
+				icon: [
+					'rounded-full',
+					'w-10',
+					'h-10',
+					'flex',
+					'items-center',
+					'justify-center',
+					'p-2.5',
+				],
+				iconlg: [
+					'rounded-full',
+					'w-14',
+					'h-14',
+					'flex',
+					'items-center',
+					'justify-center',
+					'p-3',
+				],
 			},
 		},
 		defaultVariants: {

@@ -1,10 +1,11 @@
 // src/data.ts
 import type { Layout } from 'react-grid-layout';
+import type { CardProps } from '../components/Card';
 
 export const CELL_SIZE = 280;
 export const COLS = 4;
 export const MARGIN = 10;
-export const CATEGORIES = ['All', 'Tech', 'Design', 'Media', 'Bio'];
+export const CATEGORIES = ['All', 'Tech', 'Design', 'Media', 'about'];
 
 export const DEFAULT_LAYOUT: Layout[] = [
 	{ i: '1', x: 0, y: 0, w: 1, h: 1 },
@@ -21,21 +22,11 @@ export const DEFAULT_LAYOUT: Layout[] = [
 	{ i: '7', x: 0, y: 2, w: 1, h: 2 },
 	{ i: '8', x: 1, y: 2, w: 1, h: 2 },
 
-	// bio card - horizontal
-	{ i: 'bio', x: 2, y: 2, w: 2, h: 1 },
+	// About card - horizontal
+	{ i: 'about', x: 2, y: 2, w: 2, h: 1 },
 ];
 
-export type CardDatum = {
-	id: string; // matches layout item i
-	variant: 'default' | 'horizontal' | 'vertical' | 'bio';
-	background?: string;
-	tags: string[];
-	title?: string;
-	image?: string;
-	content?: string;
-};
-
-export const CARDS: CardDatum[] = [
+export const CARDS: CardProps[] = [
 	{
 		id: '1',
 		variant: 'default',
@@ -56,12 +47,13 @@ export const CARDS: CardDatum[] = [
 		background: 'bg-pink-100',
 		tags: ['Media'],
 		title: 'Card 3',
+		showReadMore: true,
 	},
 	{
 		id: '4',
 		variant: 'default',
 		background: 'bg-yellow-100',
-		tags: ['Bio'],
+		tags: ['about'],
 		title: 'Card 4',
 	},
 
@@ -100,15 +92,18 @@ export const CARDS: CardDatum[] = [
 		background: 'bg-teal-100',
 		tags: ['Tech'],
 		title: 'V-Card 8',
+		showReadMore: true,
 	},
 
 	{
-		id: 'bio',
-		variant: 'bio',
+		id: 'about',
+		variant: 'about',
 		background: 'bg-gradient-to-r from-yellow-100 to-pink-100',
-		tags: ['Bio'],
-		title: 'Bio Card',
+		tags: ['about'],
+		title: 'about Card',
 		image: 'https://flexboxfroggy.com/images/frog-green.svg',
 		content: 'A simple description.',
+		showReadMore: true,
+		readMoreLink: '/about',
 	},
 ];

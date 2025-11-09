@@ -4,16 +4,18 @@ import { Link } from 'react-router-dom';
 import { CELL_SIZE, MARGIN } from '../data/data';
 import { Button } from './Button';
 
-export type CardType = 'default' | 'horizontal' | 'vertical' | 'bio';
+export type CardType = 'default' | 'horizontal' | 'vertical' | 'about';
 
 export type CardProps = {
 	id: string;
-	title: string | undefined;
-	background?: string;
 	variant: CardType;
-	showReadMore?: boolean;
+	background?: string;
+	tags: string[];
+	title: string | undefined;
 	image?: string;
 	content?: string | React.ReactNode;
+	showReadMore?: boolean;
+	readMoreLink?: string;
 	// locked?: boolean;
 	// showLock?: boolean;
 	// onLockToggle?: () => void;
@@ -21,17 +23,19 @@ export type CardProps = {
 
 export const Card: React.FC<CardProps> = ({
 	id,
-	title,
-	background = 'bg-grey-100',
 	variant,
-	showReadMore = false,
+	background = 'bg-grey-100',
+	tags,
+	title,
 	image,
 	content,
+	showReadMore,
+	readMoreLink,
 	// locked = false,
 	// showLock = false,
 	// onLockToggle,
 }) => {
-	const isHorizontal = variant === 'horizontal' || variant === 'bio';
+	const isHorizontal = variant === 'horizontal' || variant === 'about';
 	const isVertical = variant === 'vertical';
 
 	const style = {
@@ -49,14 +53,11 @@ export const Card: React.FC<CardProps> = ({
 			transition={{ duration: 0, type: 'spring', stiffness: 300, damping: 20 }}>
 			<div className='p-4 flex flex-col gap-2'>
 				<h2 className='font-semibold text-lg text-gray-800'>{title}</h2>
-			</div>
-
-			<div className='p-4 flex flex-col gap-2'>
 				{image && (
 					<img
-						src='https://flexboxfroggy.com/images/frog-green.svg'
+						src={image}
 						alt={title}
-						className='w-28 h-28 rounded-full object-cover'
+						className='w-16 h-16 rounded-full object-cover'
 					/>
 				)}
 			</div>
@@ -65,12 +66,12 @@ export const Card: React.FC<CardProps> = ({
 
 			<div className='flex justify-between items-center px-4 pb-4'>
 				{showReadMore && (
-					<Link to={`/content/${encodeURIComponent(id)}`}>
+					<Link to={readMoreLink || `/content/${encodeURIComponent(id)}`}>
 						<Button
 							variant='default'
-							size='md'
-							className='mt-4 hover:underline'>
-							Read More →
+							size='sm'
+							className='mt-4 hover:underline bold'>
+							Read More
 						</Button>
 					</Link>
 				)}

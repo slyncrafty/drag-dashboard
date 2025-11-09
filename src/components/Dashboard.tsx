@@ -19,33 +19,6 @@ export const Dashboard: React.FC<{ activeTag: string }> = ({ activeTag }) => {
 	const [dragging, setDragging] = useState<OverlayCard | null>(null);
 	const gridRef = useRef<HTMLDivElement>(null);
 
-	// const [locked, setLocked] = useState<string[]>([]);
-	// const toggleLock = (id: string) =>
-	// 	setLocked((prev) =>
-	// 		prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-	// 	);
-
-	// const visibleCards = useMemo(() => {
-	// 	return activeTag === 'All'
-	// 		? CARDS
-	// 		: CARDS.filter((c) => c.tags.includes(activeTag));
-	// }, [activeTag]);
-
-	// const visibleLayout = useMemo(() => {
-	// 	const byId = new Map(layout.map((l) => [l.i, l]));
-	// 	return visibleCards.map((card, idx) => {
-	// 		const found = byId.get(card.id);
-	// 		const isLocked = locked.includes(card.id);
-	// 		if (found) return { ...found, static: isLocked };
-	// 		const x = idx % COLS;
-	// 		const y = Math.floor(idx / COLS);
-	// 		const w = card.variant === 'horizontal' || card.variant === 'bio' ? 2 : 1;
-	// 		const h = card.variant === 'vertical' ? 2 : 1;
-	// 		return { i: card.id, x, y, w, h, static: isLocked };
-	// 	});
-	// }, [layout, visibleCards, locked]);
-
-	// --- Push selected tag cards upward ---
 	const visibleLayout = useMemo(() => {
 		if (activeTag === 'All') return layout;
 
@@ -146,12 +119,14 @@ export const Dashboard: React.FC<{ activeTag: string }> = ({ activeTag }) => {
 								<div className=''>
 									<Card
 										id={card.id}
-										title={card.title}
 										variant={card.variant}
 										background={card.background}
-										showReadMore={card.variant === 'bio'}
+										tags={card.tags}
+										title={card.title}
 										image={card.image}
 										content={card.content}
+										showReadMore={card.showReadMore}
+										readMoreLink={card.readMoreLink}
 										// locked={locked.includes(card.id)}
 										// showLock
 										// onLockToggle={() => toggleLock(card.id)}
