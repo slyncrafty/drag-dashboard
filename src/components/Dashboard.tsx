@@ -3,6 +3,7 @@ import GridLayout, { type Layout } from 'react-grid-layout';
 import { motion } from 'framer-motion';
 import { Card } from './Card';
 import { DEFAULT_LAYOUT, CARDS, CELL_SIZE, COLS, MARGIN } from '../data/data';
+import { SettingCard } from './SettingCard';
 
 const GRID_WIDTH = COLS * CELL_SIZE + (COLS + 1) * MARGIN;
 
@@ -19,6 +20,7 @@ export const Dashboard: React.FC<{ activeTag: string }> = ({ activeTag }) => {
 	const [dragging, setDragging] = useState<OverlayCard | null>(null);
 	const gridRef = useRef<HTMLDivElement>(null);
 
+	// filter and reorder the visible field based on tag
 	const visibleLayout = useMemo(() => {
 		if (activeTag === 'All') return layout;
 
@@ -76,14 +78,16 @@ export const Dashboard: React.FC<{ activeTag: string }> = ({ activeTag }) => {
 	const handleDragStop = () => setDragging(null);
 
 	return (
-		<div className='flex justify-center items-start py-8 bg-gray-50 min-h-screen relative'>
+		<div className='flex justify-center items-start py-8 min-h-screen w-full'>
 			<div
-				ref={gridRef}
-				style={{
-					width: GRID_WIDTH,
-					position: 'relative',
-					background: 'transparent',
-				}}>
+				// ref={gridRef}
+				// style={{
+				// 	width: GRID_WIDTH,
+				// 	position: 'relative',
+				// 	background: 'transparent',
+				// }}
+				// className='relative grid gap-4 p-4 grid-cols-1'
+				className='relative w-full max-w-[1600px] mx-auto p-4 min-w-[320px] sm:min-w-[480px] md:min-w-[640px]'>
 				<GridLayout
 					layout={visibleLayout}
 					onLayoutChange={onLayoutChange}
@@ -98,6 +102,14 @@ export const Dashboard: React.FC<{ activeTag: string }> = ({ activeTag }) => {
 					preventCollision={false}
 					isDraggable
 					isResizable={false}>
+					{/* Settings Card*/}
+					<div
+						key='settings'
+						data-grid={{ i: 'settings', x: 3, y: 0, w: 1, h: 1 }}
+						className={`relative z-50`}>
+						<SettingCard />
+					</div>
+					{/* Cards */}
 					{CARDS.map((card) => {
 						// const isLocked = locked.includes(card.id);
 						const gridItem = visibleLayout.find((l) => l.i === card.id);
@@ -118,6 +130,7 @@ export const Dashboard: React.FC<{ activeTag: string }> = ({ activeTag }) => {
 								}`}>
 								<div className=''>
 									<Card
+										// gridRef={gridRef}
 										id={card.id}
 										variant={card.variant}
 										background={card.background}
@@ -139,11 +152,11 @@ export const Dashboard: React.FC<{ activeTag: string }> = ({ activeTag }) => {
 				{/* Shadow Overlay */}
 				{dragging && (
 					<motion.div
-						className='absolute bg-blue-400/20 border-2 border-blue-500/40 rounded-xl pointer-events-none z-0'
+						className='absolute bg-gray-400/20 border-2 border-blue-500/40 rounded-xl pointer-events-none z-0'
 						initial={false}
 						animate={{
-							left: dragging.x * (CELL_SIZE + MARGIN),
-							top: dragging.y * (CELL_SIZE + MARGIN * 2),
+							left: dragging.x * CELL_SIZE + (dragging.x + 3) * MARGIN,
+							top: dragging.y * CELL_SIZE + (dragging.y + 3) * MARGIN,
 							width: dragging.w * CELL_SIZE + (dragging.w - 1) * MARGIN,
 							height: dragging.h * CELL_SIZE + (dragging.h - 1) * MARGIN,
 						}}

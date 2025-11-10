@@ -13,7 +13,7 @@ export function DashboardLayout({
 	setCurrent,
 }: DashboardLayoutProps) {
 	return (
-		<div className='min-h-screen bg-gray-50 flex flex-col'>
+		<div className='min-h-screen flex flex-col transition-colors duration-300 bg-[var(--color-bg)] text-[var(--color-text)]'>
 			<Navbar
 				categories={categories}
 				current={current}

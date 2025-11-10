@@ -12,11 +12,11 @@ export const PostPage: React.FC = () => {
 	if (!card) {
 		return (
 			<div className='flex flex-col items-center justify-center py-20'>
-				<h2 className='text-2xl font-semibold text-gray-700'>
-					Content not found.
-				</h2>
-				<Link to='/' className='mt-4 text-blue-500 hover:underline font-medium'>
-					← Back to Dashboard
+				<h2 className='text-2xl font-semibold'>Content not found.</h2>
+				<Link to='/'>
+					<Button variant='ghost' size='iconlg'>
+						X
+					</Button>
 				</Link>
 			</div>
 		);
@@ -28,7 +28,8 @@ export const PostPage: React.FC = () => {
 				initial={{ opacity: 0, y: 500 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5 }}
-				className='flex flex-col items-center justify-center px-6 py-12'>
+				className='flex flex-col items-center justify-center px-6 py-12'
+				style={{ maxWidth: 'var(--reading-width)' }}>
 				<div className='flex justify-center mb-12 pt-10'>
 					<Link to='/'>
 						<Button variant='ghost' size='iconlg'>
@@ -36,10 +37,10 @@ export const PostPage: React.FC = () => {
 						</Button>
 					</Link>
 				</div>
-				<h1 className='text-5xl font-extrabold text-gray-800 mb-6'>
+				<h1 className='text-5xl font-extrabold text-[var(--color-secondary-text)] mb-6'>
 					{card.title}
 				</h1>
-				<p className='text-gray-600 mb-6'>
+				<p className='text-[var(--color-text)] mb-6'>
 					This is a detailed content page for <strong>{card.title}</strong>. Add
 					contents.
 				</p>
@@ -49,7 +50,7 @@ export const PostPage: React.FC = () => {
 						alt={card.title}
 						className='rounded-lg mb-6'
 					/>
-					<div className='space-y-6 leading-relaxed text-gray-800'>
+					<div className='space-y-6 leading-relaxed text-[var(--color-secondary-text)]'>
 						<p>
 							Phasellus a ante vel ipsum mollis cursus. Donec interdum, nisl sed
 							congue dapibus, mi tortor accumsan diam, et pretium nunc purus

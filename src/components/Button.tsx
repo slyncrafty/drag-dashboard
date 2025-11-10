@@ -10,12 +10,14 @@ export const buttonStyles = cva(
 	{
 		variants: {
 			variant: {
-				default: ['bg-gray-100 hover:bg-gray-200 text-gray-700'],
-				ghost: ['bg-transparent border border-gray-300 hover:bg-gray-100'],
+				default: [
+					'bg-[var(--color-secondary)]',
+					'hover:bg-[var(--color-secondary-hover)]',
+					'text-[var(--color-secondary-text)]',
+				],
+				ghost: ['bg-transparent border border-gray-400 hover:bg-gray-100'],
 				dark: [
-					'bg-secondary-dark',
-					'hover:bg-secondary-dark-hover',
-					'text-secondary',
+					'bg-secondary-dark border-gray-400 hover:bg-secondary-dark-hover text-secondary',
 				],
 			},
 			size: {

@@ -11,11 +11,12 @@ export type CardProps = {
 	variant: CardType;
 	background?: string;
 	tags: string[];
-	title: string | undefined;
+	title?: string | undefined;
 	image?: string;
 	content?: string | React.ReactNode;
 	showReadMore?: boolean;
 	readMoreLink?: string;
+	children?: React.ReactNode;
 	// locked?: boolean;
 	// showLock?: boolean;
 	// onLockToggle?: () => void;
@@ -31,6 +32,7 @@ export const Card: React.FC<CardProps> = ({
 	content,
 	showReadMore,
 	readMoreLink,
+	children,
 	// locked = false,
 	// showLock = false,
 	// onLockToggle,
@@ -47,12 +49,16 @@ export const Card: React.FC<CardProps> = ({
 	return (
 		<motion.div
 			layout
-			className={`rounded-2xl shadow-md overflow-hidden border border-gray-200 flex flex-col justify-between ${background}`}
+			className={`rounded-2xl shadow-md overflow-hidden border border-gray-200 flex flex-col justify-between bg-[var(--color-card)] border-[var(--color-border)] text-[var(--color-text)]     transition-colors duration-300 hover:bg-[var(--color-card-hover)] ${
+				background ? background : ''
+			}`}
 			style={style}
-			whileHover={{ scale: 1.02 }}
+			whileHover={{ scale: 1.01 }}
+			// whileDrag={{ zIndex: 20 }}
+			// dragMomentum={false}
 			transition={{ duration: 0, type: 'spring', stiffness: 300, damping: 20 }}>
 			<div className='p-4 flex flex-col gap-2'>
-				<h2 className='font-semibold text-lg text-gray-800'>{title}</h2>
+				<h2 className='font-semibold text-lg'>{title}</h2>
 				{image && (
 					<img
 						src={image}
@@ -61,8 +67,13 @@ export const Card: React.FC<CardProps> = ({
 					/>
 				)}
 			</div>
-
-			{content && <div className='p-4 text-gray-600 text-sm'>{content}</div>}
+			<div className='p-4 text-sm'>
+				{content && typeof content === 'string' ? (
+					<p>{content}</p>
+				) : (
+					content || children
+				)}
+			</div>
 
 			<div className='flex justify-between items-center px-4 pb-4'>
 				{showReadMore && (
@@ -88,6 +99,7 @@ export const Card: React.FC<CardProps> = ({
 						{locked ? 'Unlock' : 'Lock'}
 					</Button>
 				)} */}
+				{/* {children && <div className='mt-4'>{children}</div>} */}
 			</div>
 		</motion.div>
 	);
