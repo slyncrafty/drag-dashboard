@@ -1,22 +1,37 @@
-import React from 'react';
+import React, { type RefObject } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from './Card';
 import { useAppSettings } from '../contexts/AppSettingContext';
 import { Button } from './Button';
 
-export const SettingCard: React.FC = () => {
+export type SettingCardProps = {
+	cellSize: number;
+	margin: number;
+	gridRef: RefObject<HTMLDivElement | null>;
+};
+
+export const SettingCard: React.FC<SettingCardProps> = ({
+	cellSize,
+	margin,
+	gridRef,
+}) => {
 	// const { theme, setTheme, width, setWidth } = useAppSettings();
 	const { theme, setTheme } = useAppSettings();
-	const isDark = theme === 'dark';
-
+	const isDark = theme == 'dark';
 	return (
-		<motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+		<motion.div
+			layout
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}>
 			<Card
-				id='settings'
-				variant='default'
+				id='setting'
+				variant='base'
 				background=''
 				tags={[]}
-				title={'Settings'}>
+				title={'Setting'}
+				cellSize={cellSize}
+				margin={margin}
+				gridRef={gridRef}>
 				<div className='flex justify-center align-center mb-8'>
 					<Button
 						variant={`${isDark ? 'dark' : 'default'}`}

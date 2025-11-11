@@ -7,6 +7,7 @@ type NavbarProps = {
 	categories?: string[];
 	current?: string;
 	setCurrent?: (tag: string) => void;
+	showLogo?: boolean;
 	showCategories?: boolean;
 	dark?: boolean;
 };
@@ -15,6 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 	categories,
 	current,
 	setCurrent = () => {},
+	showLogo = true,
 	showCategories = true,
 	dark = false,
 }) => {
@@ -24,12 +26,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 	return (
 		<nav
 			className={`flex items-center justify-between px-8 py-4 shadow-sm ${bgColor}`}>
-			<div
-				className={`font-bold text-lg cursor-pointer hover:text-indigo-500 transition-colors ${textColor}`}
-				onClick={() => setCurrent('All')}>
-				<Link to='/'>Drag-Dashboard</Link>
-			</div>
-
+			{showLogo && (
+				<div
+					className={`font-bold text-lg cursor-pointer hover:text-indigo-500 transition-colors ${textColor}`}
+					onClick={() => setCurrent('All')}>
+					<Link to='/'>Drag-Dashboard</Link>
+				</div>
+			)}
 			{showCategories && (
 				<div className='flex gap-4'>
 					{categories &&
@@ -48,10 +51,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 						))}
 				</div>
 			)}
-
-			<Button variant={contactBtn} size='lg'>
-				<a href='mailto:you@example.com'>Contact</a>
-			</Button>
+			{showLogo && (
+				<Button variant={contactBtn} size='lg'>
+					<a href='mailto:you@example.com'>Contact</a>
+				</Button>
+			)}
 		</nav>
 	);
 };

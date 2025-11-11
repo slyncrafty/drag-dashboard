@@ -1,25 +1,46 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { CELL_SIZE, MARGIN } from '../data/data';
 import { Button } from './Button';
 
-export type CardType = 'default' | 'horizontal' | 'vertical' | 'about';
+export type CardType = 'base' | 'horizontal' | 'vertical' | 'large';
 
-export type CardProps = {
+// export type CardProps = {
+// 	id: string;
+// 	variant: CardType;
+// 	background?: string;
+// 	tags: string[];
+// 	title?: string | undefined;
+// 	image?: string;
+// 	content?: string | React.ReactNode;
+// 	showReadMore?: boolean;
+// 	readMoreLink?: string;
+// 	children?: React.ReactNode;
+// 	cellSize: number;
+// 	margin: number;
+// 	gridRef: RefObject<HTMLDivElement | null>;
+// 	// locked?: boolean;
+// 	// showLock?: boolean;
+// 	// onLockToggle?: () => void;
+// };
+
+export type CardData = {
 	id: string;
-	variant: CardType;
+	variant?: CardType;
 	background?: string;
 	tags: string[];
-	title?: string | undefined;
+	title: string;
 	image?: string;
-	content?: string | React.ReactNode;
+	content?: string;
 	showReadMore?: boolean;
 	readMoreLink?: string;
 	children?: React.ReactNode;
-	// locked?: boolean;
-	// showLock?: boolean;
-	// onLockToggle?: () => void;
+};
+
+export type CardProps = CardData & {
+	cellSize: number;
+	margin: number;
+	gridRef: React.RefObject<HTMLDivElement | null>;
 };
 
 export const Card: React.FC<CardProps> = ({
@@ -33,17 +54,28 @@ export const Card: React.FC<CardProps> = ({
 	showReadMore,
 	readMoreLink,
 	children,
+	cellSize,
+	margin,
+	gridRef,
 	// locked = false,
 	// showLock = false,
 	// onLockToggle,
 }) => {
-	const isHorizontal = variant === 'horizontal' || variant === 'about';
+	const isHorizontal = variant === 'horizontal';
 	const isVertical = variant === 'vertical';
+	const isLarge = variant === 'large';
+	const base = cellSize + margin;
 
-	const style = {
-		width: isHorizontal ? CELL_SIZE * 2 + MARGIN : CELL_SIZE,
-		height: isVertical ? CELL_SIZE * 2 + MARGIN : CELL_SIZE,
+	const style: React.CSSProperties = {
+		width: isHorizontal || isLarge ? base * 2 - margin : base - margin,
+		height: isVertical || isLarge ? base * 2 - margin : base - margin,
 		background,
+		borderRadius: '1rem',
+		overflow: 'hidden',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+		boxShadow: '0 2px 8px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)',
 	};
 
 	return (
@@ -53,9 +85,8 @@ export const Card: React.FC<CardProps> = ({
 				background ? background : ''
 			}`}
 			style={style}
+			dragConstraints={gridRef}
 			whileHover={{ scale: 1.01 }}
-			// whileDrag={{ zIndex: 20 }}
-			// dragMomentum={false}
 			transition={{ duration: 0, type: 'spring', stiffness: 300, damping: 20 }}>
 			<div className='p-4 flex flex-col gap-2'>
 				<h2 className='font-semibold text-lg'>{title}</h2>

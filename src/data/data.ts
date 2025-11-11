@@ -1,61 +1,36 @@
-// src/data.ts
-import type { Layout } from 'react-grid-layout';
-import type { CardProps } from '../components/Card';
+import { type CardData, type CardType } from '../components/Card';
 
-export const CELL_SIZE = 280;
-export const COLS = 4;
-export const MARGIN = 10;
-export const CATEGORIES = ['All', 'Tech', 'Design', 'Media', 'about'];
+import { COLS, type Breakpoint } from './gridConfig';
 
-export const DEFAULT_LAYOUT: Layout[] = [
-	{ i: '1', x: 0, y: 0, w: 1, h: 1 },
-	{ i: '2', x: 1, y: 0, w: 1, h: 1 },
-	{ i: '3', x: 2, y: 0, w: 1, h: 1 },
-	{ i: '4', x: 3, y: 0, w: 1, h: 1 },
-
-	// horizontals (2x1)
-	{ i: '5', x: 0, y: 1, w: 2, h: 1 },
-	{ i: '6', x: 2, y: 1, w: 2, h: 1 },
-	{ i: '9', x: 3, y: 2, w: 2, h: 1 },
-
-	// verticals (1x2)
-	{ i: '7', x: 0, y: 2, w: 1, h: 2 },
-	{ i: '8', x: 1, y: 2, w: 1, h: 2 },
-
-	// About card - horizontal
-	{ i: 'about', x: 2, y: 2, w: 2, h: 1 },
-];
-
-export const CARDS: CardProps[] = [
+export const CARDS: CardData[] = [
 	{
 		id: '1',
-		variant: 'default',
+		variant: 'base',
 		background: '',
 		tags: ['Tech'],
 		title: 'Card 1',
 	},
 	{
 		id: '2',
-		variant: 'default',
+		variant: 'base',
 		background: '',
 		tags: ['Design', 'Tech'],
 		title: 'Card 2',
 	},
 	{
 		id: '3',
-		variant: 'default',
+		variant: 'base',
 		background: '',
 		tags: ['Media'],
 		title: 'Card 3',
-		showReadMore: true,
 	},
-	// {
-	// 	id: '4',
-	// 	variant: 'default',
-	// 	background: 'bg-yellow-100',
-	// 	tags: ['about'],
-	// 	title: 'Card 4',
-	// },
+	{
+		id: 'setting',
+		variant: 'base',
+		background: '',
+		tags: ['about'],
+		title: 'Card 4',
+	},
 
 	{
 		id: '5',
@@ -63,6 +38,7 @@ export const CARDS: CardProps[] = [
 		background: '',
 		tags: ['Tech'],
 		title: 'H-Card 5',
+		showReadMore: true,
 	},
 	{
 		id: '6',
@@ -97,7 +73,7 @@ export const CARDS: CardProps[] = [
 
 	{
 		id: 'about',
-		variant: 'about',
+		variant: 'large',
 		// background: 'bg-gradient-to-r from-yellow-100 to-pink-100',
 		tags: ['about'],
 		title: 'about me',
@@ -107,3 +83,33 @@ export const CARDS: CardProps[] = [
 		readMoreLink: '/about',
 	},
 ];
+
+const TYPE_SIZES: Record<CardType, { w: number; h: number }> = {
+	base: { w: 1, h: 1 },
+	horizontal: { w: 2, h: 1 },
+	vertical: { w: 1, h: 2 },
+	large: { w: 2, h: 2 },
+};
+
+export const CATEGORIES = ['All', 'Tech', 'Design', 'Media', 'about'];
+
+export const DEFAULT_LAYOUTS = Object.fromEntries(
+	Object.entries(COLS).map(([bp, cols]) => {
+		let x = 0;
+		let y = 0;
+		const layout = CARDS.map((card) => {
+			const { w, h } = TYPE_SIZES[card.variant || 'base'];
+			if (x + w > cols) {
+				x = 0;
+				y += h;
+			}
+			const item = { i: card.id, x, y, w, h };
+			x += w;
+			return item;
+		});
+		return [bp, layout];
+	})
+) as Record<
+	Breakpoint,
+	{ i: string; x: number; y: number; w: number; h: number }[]
+>;
